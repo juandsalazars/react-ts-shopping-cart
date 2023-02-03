@@ -1,8 +1,11 @@
 import { Button, Container, Nav, Navbar as NavbarBs } from 'react-bootstrap';
 import { FaShoppingCart } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
+import { useShoppingCart } from '../context/ShoppingCartContext';
 
 export function Navbar() {
+    const { openCart, cartQuantity } = useShoppingCart();
+
     return (
         <NavbarBs sticky="top" className='bg-white shadow-sm mb-3'>
             <Container>
@@ -17,25 +20,35 @@ export function Navbar() {
                         About
                     </Nav.Link>
                 </Nav>
-                <Button
-                    style={{width: "3rem", height: "3rem", position: "relative"}}
-                    className="d-flex justify-content-start rounded-circle"
-                    variant="outline-primary"
-                >
-                    <FaShoppingCart size={35} className="mr-5" />
-                    <div className="rounded-circle bg-danger d-flex justify-content-center
-                        align-items-center"
+                {cartQuantity > 0 && (
+                    <Button
+                        onClick={openCart}
                         style={{
-                            color: "white",
-                            width: "1.5rem",
-                            height: "1.5rem",
-                            position: "absolute",
-                            bottom: 0,
-                            right: 0,
-                            transform: "translate(+25%,+25%)"
+                            width: "3rem",
+                            height: "3rem",
+                            position: "relative"
                         }}
-                    >3</div>
-                </Button>
+                        className="d-flex justify-content-start rounded-circle"
+                        variant="outline-primary"
+                    >
+                        <FaShoppingCart size={35} className="mr-5" />
+                        <div 
+                            className="rounded-circle bg-danger d-flex justify-content-center
+                            align-items-center"
+                            style={{
+                                color: "white",
+                                width: "1.5rem",
+                                height: "1.5rem",
+                                position: "absolute",
+                                bottom: 0,
+                                right: 0,
+                                transform: "translate(+25%,+25%)"
+                            }}
+                        >
+                            {cartQuantity}
+                        </div>
+                    </Button>
+                )}
             </Container>
         </NavbarBs>
     );
